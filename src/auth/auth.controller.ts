@@ -7,18 +7,18 @@ import { UserService } from '../user/user.service';
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    //private readonly userService: UserService,
+    private readonly userService: UserService,
     ) {}
 
   @Post('token')
   async createToken(@Body() user: any): Promise<any> {
-    // const authUser = await this.userService.findByEmailAndPassword(user);
+    const authUser = await this.userService.findByEmailAndPassword(user);
 
-    // if (authUser === null) {
-    //   throw new HttpException('Email or password is wrong!', HttpStatus.NOT_FOUND);
-    // }
+    if (authUser === null) {
+      throw new HttpException('Email or password is wrong!', HttpStatus.NOT_FOUND);
+    }
 
-    // return await this.authService.createToken();
+    return await this.authService.createToken();
   }
 
   @Get('data')

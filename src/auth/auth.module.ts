@@ -8,6 +8,7 @@ import { UserService } from '../user/user.service';
 import { UserSchema } from '../user/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseModule } from '../database/database.module';
+import { userProviders } from '../user/user.providers';
 
 @Module({
   imports: [
@@ -22,6 +23,8 @@ import { DatabaseModule } from '../database/database.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, UserService, JwtStrategy,
+    ...userProviders,
+  ],
 })
 export class AuthModule {}
