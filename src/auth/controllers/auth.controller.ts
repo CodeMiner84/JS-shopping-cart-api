@@ -1,7 +1,8 @@
-import { Controller, Get, UseGuards, Body, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Controller, Get, UseGuards, Body, HttpException, HttpStatus, Post, Request, Req, Res } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../../user/user.service';
+import { GetLoggedUser } from '../helpers/selectors';
 
 @Controller('auth')
 export class AuthController {
@@ -18,14 +19,19 @@ export class AuthController {
       throw new HttpException('Email or password is wrong!', HttpStatus.NOT_FOUND);
     }
 
-    return await this.authService.createToken();
+    return await this.authService.createToken(authUser.email);
   }
 
-  @Get('data')
-  @UseGuards(AuthGuard())
-  findAll() {
-    return 'true';
-    // This route is restricted by AuthGuard
-    // JWT strategy
+  @Get('me')
+  @UseGuards(AuthGuard('jwt'))
+  findAll(@Res() res, @GetLoggedUser() user) {
+    if (!user) {
+      res.status(500).send({
+        auth: false,
+        error: 'No token provided',
+      });
+    }
+
+    return res.status(200).json(user);
   }
 }

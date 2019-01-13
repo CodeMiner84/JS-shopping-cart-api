@@ -29,4 +29,10 @@ export class UserService {
       { email: user.email, password: user.password },
       ).exec();
   }
+
+  async findOneByEmail(email: string): Promise<any> {
+    return await this.userModel.findOne(
+      { email },
+      ).exec();
+  }
 }
