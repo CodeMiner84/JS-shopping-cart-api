@@ -26,7 +26,6 @@
     "@nestjs/jwt": "^0.2.1",
     "@nestjs/mongoose": "^5.2.2",
     "@nestjs/passport": "^5.1.0",
-    "cors": "^2.8.5",
     "mongoose": "^5.4.3",
     "node-mongoose-fixtures": "^0.3.0",
     "passport": "^0.4.0",
