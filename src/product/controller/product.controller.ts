@@ -11,4 +11,9 @@ export class ProductController {
   index() {
     return this.productService.getAll();
   }
+
+  @Get('/import')
+  import() {
+    return this.productService.import();
+  }
 }
