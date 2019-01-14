@@ -41,4 +41,15 @@ export class AuthController {
 
     return res.status(200).json(user);
   }
+
+  @Post('/register')
+  async create(@Body() user: User, @Res() res) {
+    const authUser = this.userService.create(user);
+    const token = await this.authService.createToken(user.email);
+
+    res.status(200).json({
+      user: authUser,
+      token,
+    });
+  }
 }
