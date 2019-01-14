@@ -3,6 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../../user/services/user.service';
 import { GetLoggedUser } from '../helpers/selectors';
+import { User } from '../../user/interfaces/user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -11,15 +12,21 @@ export class AuthController {
     private readonly userService: UserService,
     ) {}
 
-  @Post('token')
-  async createToken(@Body() user: any): Promise<any> {
+  @Post('login')
+  async login(@Body() user: User, @Res() res): Promise<any> {
     const authUser = await this.userService.findByEmailAndPassword(user);
 
     if (authUser === null) {
       throw new HttpException('Email or password is wrong!', HttpStatus.NOT_FOUND);
     }
 
-    return await this.authService.createToken(authUser.email);
+    const token = await this.authService.createToken(authUser.email);
+    res.status(200).json({
+      user: {
+        ...authUser._doc,
+      },
+      token,
+    });
   }
 
   @Get('me')

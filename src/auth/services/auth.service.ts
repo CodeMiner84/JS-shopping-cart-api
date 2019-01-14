@@ -10,13 +10,9 @@ export class AuthService {
     private readonly jwtService: JwtService,
     ) {}
 
-  createToken(email: string): object {
+  createToken(email: string): string {
     const user: JwtPayload = { email };
-    const accessToken = this.jwtService.sign(user);
-    return {
-      expiresIn: 3600,
-      accessToken,
-    };
+    return this.jwtService.sign(user);
   }
 
   async validateUser(payload: JwtPayload): Promise<any> {

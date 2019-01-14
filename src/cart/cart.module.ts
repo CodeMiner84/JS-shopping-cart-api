@@ -11,6 +11,5 @@ import { cartProviders } from './providers/cart.providers';
     CartService,
     ...cartProviders,
   ],
-  exports: [CartService],
 })
 export class CartModule {}
