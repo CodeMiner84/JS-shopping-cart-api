@@ -13,4 +13,11 @@ export class CartService {
   async getCartItems(): Promise<CartItemModel> {
     return await this.productModel.find().exec();
   }
+
+  async itemExists(productId: string, customerId?: string): Promise<CartItemModel> {
+    return await this.productModel.findOne({
+      product_id: productId,
+      customer_id: customerId,
+    }).exec();
+  }
 }

@@ -342,6 +342,10 @@ atob@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
 
+auto-bind@^1.1.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/auto-bind/-/auto-bind-1.2.1.tgz#807f7910b0210db9eefe133f3492c28e89698b96"
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -2880,6 +2884,14 @@ mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
 
+mongoose-repository@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/mongoose-repository/-/mongoose-repository-0.2.0.tgz#2d9cdfceb5bc98ebd771c146a32dc0783939a5d4"
+  dependencies:
+    auto-bind "^1.1.0"
+    polygoat "1.1.4"
+    transform-props "1.0.1"
+
 mongoose@^5.4.3:
   version "5.4.3"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.4.3.tgz#9cbc689ca0c529c2d7dd5a84dcfbc9b041084367"
@@ -3353,6 +3365,10 @@ pkg-dir@^2.0.0:
 pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
+
+polygoat@1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/polygoat/-/polygoat-1.1.4.tgz#329f9a0d1b2d4a45149e2539523c6f7dfd850a5f"
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
@@ -4187,6 +4203,10 @@ tr46@^1.0.1:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-1.0.1.tgz#a8b13fd6bfd2489519674ccde55ba3693b706d09"
   dependencies:
     punycode "^2.1.0"
+
+transform-props@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/transform-props/-/transform-props-1.0.1.tgz#c98ea32d76031f9b83561b1575dffb58b39a7b1c"
 
 trim-right@^1.0.1:
   version "1.0.1"

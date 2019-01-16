@@ -22,5 +22,5 @@ export const CartItemSchema = new Schema({
     title: {
         type: String,
         requied: 'Title is required',
-    }
+    },
 });
