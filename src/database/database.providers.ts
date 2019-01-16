@@ -1,10 +1,8 @@
-import * as mongoose from 'mongoose';
-import { DB_CONNECTION_TOKEN } from './constants';
+import { createConnection } from 'typeorm';
 
 export const databaseProviders = [
   {
-    provide: DB_CONNECTION_TOKEN,
-    useFactory: async (): Promise<typeof mongoose> =>
-      await mongoose.connect('mongodb://localhost/nest'),
+    provide: 'DbConnectionToken',
+    useFactory: async () => await createConnection(),
   },
 ];

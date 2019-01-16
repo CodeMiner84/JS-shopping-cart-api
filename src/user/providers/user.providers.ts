@@ -1,11 +1,12 @@
-import { Connection } from 'mongoose';
-import { UserSchema } from '../schemas/user.schema';
+import { USER_REPOSITORY } from '../contastants';
+import { Connection } from 'typeorm';
+import { User } from '../entity/user.entity';
 import { DB_CONNECTION_TOKEN } from '../../database/constants';
 
 export const userProviders = [
   {
-    provide: 'UserModelToken',
-    useFactory: (connection: Connection) => connection.model('User', UserSchema),
+    provide: USER_REPOSITORY,
+    useFactory: (connection: Connection) => connection.getRepository(User),
     inject: [DB_CONNECTION_TOKEN],
   },
 ];

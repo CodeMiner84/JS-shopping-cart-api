@@ -44,12 +44,25 @@ export class AuthController {
 
   @Post('/register')
   async create(@Body() user: User, @Res() res) {
-    const authUser = this.userService.create(user);
-    const token = await this.authService.createToken(user.email);
+    try {
+      const authUser = await this.userService.create(user);
+      if (authUser === null) {
+        return res.status(403).json({
+          status: 403,
+          message: 'User already exists',
+        });
+      }
+      const token = await this.authService.createToken(user.email);
 
-    res.status(200).json({
-      user: authUser,
-      token,
-    });
+      delete authUser.password;
+      res.status(200).json({
+        user: authUser,
+        token,
+      });
+    } catch (e) {
+      res.status(500).json({
+        message: e.message,
+      });
+    }
   }
 }

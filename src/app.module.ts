@@ -10,8 +10,8 @@ import { CartModule } from './cart/cart.module';
     DatabaseModule,
     AuthModule,
     UserModule,
-    ProductModule,
-    CartModule,
+    // ProductModule,
+    // CartModule,
   ],
 })
 export class AppModule {}
