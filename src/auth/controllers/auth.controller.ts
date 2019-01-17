@@ -16,14 +16,15 @@ export class AuthController {
   async login(@Body() user: User, @Res() res): Promise<any> {
     const authUser = await this.userService.findByEmailAndPassword(user);
 
-    if (authUser === null) {
+    if (authUser == null) {
       throw new HttpException('Email or password is wrong!', HttpStatus.NOT_FOUND);
     }
 
     const token = await this.authService.createToken(authUser.email);
     res.status(200).json({
       user: {
-        ...authUser._doc,
+        username: authUser.username,
+        email: authUser.email,
       },
       token,
     });
