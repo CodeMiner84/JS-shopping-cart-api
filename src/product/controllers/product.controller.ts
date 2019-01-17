@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
 import { ProductService } from '../services/product.service';
 
 @Controller('product')
@@ -13,7 +13,7 @@ export class ProductController {
   }
 
   @Get('/import')
-  import() {
-    return this.productService.import();
+  async import(@Res() res) {
+    return res.status(200).json(await this.productService.import());
   }
 }

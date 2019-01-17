@@ -1,12 +1,12 @@
 import { Connection } from 'mongoose';
-import { ProductSchema } from '../schemas/product.schema';
-import { PRODUCT_ENTITY, PRODUCT_DOCUMENT } from '../constants';
+import { PRODUCT_REPOSITORY, PRODUCT_DOCUMENT } from '../constants';
 import { DB_CONNECTION_TOKEN } from '../../database/constants';
+import { Product } from '../entity/product.entity';
 
 export const productProviders = [
   {
-    provide: PRODUCT_ENTITY,
-    useFactory: (connection: Connection) => connection.model(PRODUCT_DOCUMENT, ProductSchema),
+    provide: PRODUCT_REPOSITORY,
+    useFactory: (connection: Connection) => connection.getRepository(Product),
     inject: [DB_CONNECTION_TOKEN],
   },
 ];

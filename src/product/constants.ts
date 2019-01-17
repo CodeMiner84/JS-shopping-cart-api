@@ -1,2 +1,2 @@
-export const PRODUCT_ENTITY = 'PRODUCT_ENTITY';
+export const PRODUCT_REPOSITORY = 'PRODUCT_REPOSITORY';
 export const PRODUCT_DOCUMENT = 'Product';

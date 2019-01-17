@@ -10,7 +10,7 @@ import { CartModule } from './cart/cart.module';
     DatabaseModule,
     AuthModule,
     UserModule,
-    // ProductModule,
+    ProductModule,
     // CartModule,
   ],
 })

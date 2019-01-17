@@ -1,26 +1,44 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { Product } from '../interfaces/product.dto';
-import * as fixtures from 'node-mongoose-fixtures';
-import * as mongoose from 'mongoose';
 import { productFixtures } from '../fixtures/product.fixtures';
-import { PRODUCT_ENTITY } from '../constants';
+import { PRODUCT_REPOSITORY } from '../constants';
+import { Repository } from 'typeorm';
+import { fixtureCreator, many, one } from 'typeorm-fixtures';
+import { Product } from '../entity/product.entity';
+
+export const createUsersFixture = fixtureCreator<Product>(Product, (
+  entity,
+  index,
+) => ({
+    ean: entity.ean,
+    title: entity.title,
+    description: entity.description,
+    image: entity.image,
+    price: entity.price,
+    isActive: entity.isActive,
+    created: new Date(),
+}));
 
 @Injectable()
 export class ProductService {
   constructor(
-    @Inject(PRODUCT_ENTITY)
-    private readonly productModel: Model<any>,
+    @Inject(PRODUCT_REPOSITORY)
+    private readonly productRepository: Repository<Product>,
   ) {}
 
   async getAll(): Promise<Product[]> {
-    return await this.productModel.find().exec();
+    return await this.productRepository.find();
   }
 
   async import() {
-    this.productModel.remove().exec();
-    fixtures(productFixtures, mongoose);
-    
-    return 'import finished';
+    this.productRepository.clear();
+    createUsersFixture(productFixtures);
+
+    for (const fixture of productFixtures) {
+      this.productRepository.save(fixture);
+    }
+
+    return {
+      message: 'import finished',
+    };
   }
 }
