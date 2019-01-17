@@ -6,9 +6,11 @@
   "password": "michal",
   "database": "nestjs",
   "entities": ["src/**/**.entity{.ts,.js}"],
-  "synchronize": true,
+  "synchronize": false,
+  "migrationsRun": true,
+  "logging": true,
   "migrations": [
-     "src/migration/**/*.ts"
+     "src/migrations/*.ts"
   ],
   "cli": {
       "migrationsDir": "src/migrations/"

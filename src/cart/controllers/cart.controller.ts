@@ -1,16 +1,18 @@
 import { Controller, Get, Post, Body, Res, CacheKey, Inject, UseGuards, Req } from '@nestjs/common';
 import { CartService } from '../services/cart.service';
 import { GetLoggedUser } from '../../auth/helpers/selectors';
-import { CART_ENTITY } from '../constants';
+import { CART_REPOSITORY } from '../constants';
 import { CartItemModel } from '../interfaces/cart.dto';
 import { Model } from 'mongoose';
 import { AuthGuard } from '@nestjs/passport';
+import { Repository } from 'typeorm';
+import { CartItem } from '../entity/cart.entity';
 
 @Controller('cart')
 export class CartController {
   constructor(
-    @Inject(CART_ENTITY)
-    private readonly cartEntity: Model<CartItemModel>,
+    @Inject(CART_REPOSITORY)
+    private readonly cartRepository: Repository<CartItem>,
     private readonly cartService: CartService,
   ) {}
 
@@ -25,19 +27,19 @@ export class CartController {
     const exists = await this.cartService.itemExists(params.product_id, user._id);
 
     if (exists) {
-      await this.cartEntity.update(
-        {product_id: exists.product_id, customer_id: user._id},
+      await this.cartRepository.update(
+        {productId: exists.productId, customerId: user._id},
         {quantity: exists.quantity + params.quantity},
       );
 
       res.status(200).json(['done']);
     } else {
-      const model = this.cartEntity({
+      const model = this.cartRepository.save({
         ...params,
         customer_id: user._id,
-      }).save();
+      });
 
-      res.status(200).json(params);
+      res.status(200).json(model);
     }
 
   }

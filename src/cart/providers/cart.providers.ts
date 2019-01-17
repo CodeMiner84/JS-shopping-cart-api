@@ -1,12 +1,12 @@
 import { Connection } from 'mongoose';
-import { CartItemSchema } from '../schemas/cart.schema';
-import { CART_ENTITY, CART_DOCUMENT } from '../constants';
+import { CART_REPOSITORY } from '../constants';
 import { DB_CONNECTION_TOKEN } from '../../database/constants';
+import { CartItem } from '../entity/cart.entity';
 
 export const cartProviders = [
   {
-    provide: CART_ENTITY,
-    useFactory: (connection: Connection) => connection.model(CART_DOCUMENT, CartItemSchema),
+    provide: CART_REPOSITORY,
+    useFactory: (connection: Connection) => connection.getRepository(CartItem),
     inject: [DB_CONNECTION_TOKEN],
   },
 ];

@@ -1,2 +1,2 @@
 export const CART_DOCUMENT = 'Cart';
-export const CART_ENTITY = 'CART_ENTITY';
+export const CART_REPOSITORY = 'CART_REPOSITORY';

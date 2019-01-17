@@ -11,7 +11,7 @@ import { CartModule } from './cart/cart.module';
     AuthModule,
     UserModule,
     ProductModule,
-    // CartModule,
+    CartModule,
   ],
 })
 export class AppModule {}
