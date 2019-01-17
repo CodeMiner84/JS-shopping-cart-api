@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../../user/services/user.service';
 import { GetLoggedUser } from '../helpers/selectors';
-import { User } from '../../user/interfaces/user.interface';
+import { User } from '../../user/interfaces/user.dto';
 
 @Controller('auth')
 export class AuthController {

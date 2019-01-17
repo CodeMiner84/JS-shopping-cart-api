@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from '../interfaces/user.interface';
+import { User } from '../interfaces/user.dto';
 import { USER_REPOSITORY } from '../contastants';
 import { Repository, Entity } from 'typeorm';
 
@@ -20,7 +20,10 @@ export class UserService {
       const newUser = await this.userRepository.findOne({ email: user.email, password: user.password });
 
       if (newUser == null) {
-        return await this.userRepository.save(user);
+        return await this.userRepository.insert({
+          ...user,
+          created: new Date(),
+        });
       }
 
       return await null;
