@@ -31,11 +31,8 @@ export class UserService {
       return await null;
   }
 
-  async findByEmailAndPassword(params: any): Promise<User> {
-    const user = await this.userRepository.findOne(
-      { email: params.email },
-      );
-
+  async findByEmailAndPassword(params: Partial<User>): Promise<User> {
+    const user = await this.userRepository.findOne({ email: params.email });
     if (!user) {
       return null;
     }
@@ -51,6 +48,7 @@ export class UserService {
   async findOneByEmail(email: string): Promise<any> {
     return await this.userRepository.findOne(
       { email },
+      { select: ['id', 'username', 'email'] },
       );
   }
 }
