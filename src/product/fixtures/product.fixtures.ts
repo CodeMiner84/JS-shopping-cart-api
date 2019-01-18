@@ -1,4 +1,14 @@
 
+export interface ProductFixturesProps {
+  id: number;
+  ean: string;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+  isActive: boolean;
+}
+
 export const productFixtures = [
 {
     id: 1,

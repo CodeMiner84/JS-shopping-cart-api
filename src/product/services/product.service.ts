@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { productFixtures } from '../fixtures/product.fixtures';
 import { PRODUCT_REPOSITORY } from '../constants';
-import { Repository } from 'typeorm';
 import { fixtureCreator, many, one } from 'typeorm-fixtures';
 import { Product } from '../entity/product.entity';
+import { ProductRepository } from '../entity/product.repository';
 
 export const createUsersFixture = fixtureCreator<Product>(Product, (
   entity,
@@ -22,21 +22,15 @@ export const createUsersFixture = fixtureCreator<Product>(Product, (
 export class ProductService {
   constructor(
     @Inject(PRODUCT_REPOSITORY)
-    private readonly productRepository: Repository<Product>,
+    private readonly productRepository: ProductRepository,
   ) {}
 
   async getAll(): Promise<Product[]> {
-    return await this.productRepository.find();
+    return await this.productRepository.findAll();
   }
 
   async import() {
-    this.productRepository.clear();
-    createUsersFixture(productFixtures);
-
-    for (const fixture of productFixtures) {
-      this.productRepository.save(fixture);
-    }
-
+    this.productRepository.loadFixtures(productFixtures);
     return {
       message: 'import finished',
     };
