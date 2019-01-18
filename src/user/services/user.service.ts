@@ -1,16 +1,14 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { User } from '../interfaces/user.dto';
 import { USER_REPOSITORY, salt } from '../contastants';
-import { Repository, Entity } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import { UserRepository } from '../entity/UserRepository';
+import { User } from '../entity/user.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject(USER_REPOSITORY)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: UserRepository,
   ) {}
 
   async findAll(): Promise<any> {
@@ -46,9 +44,6 @@ export class UserService {
   }
 
   async findOneByEmail(email: string): Promise<any> {
-    return await this.userRepository.findOne(
-      { email },
-      { select: ['id', 'username', 'email'] },
-      );
+    return await this.userRepository.findTest(email);
   }
 }

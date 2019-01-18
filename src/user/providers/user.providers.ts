@@ -1,12 +1,12 @@
 import { USER_REPOSITORY } from '../contastants';
 import { Connection } from 'typeorm';
-import { User } from '../entity/user.entity';
 import { DB_CONNECTION_TOKEN } from '../../database/constants';
+import { UserRepository } from '../entity/UserRepository';
 
 export const userProviders = [
   {
     provide: USER_REPOSITORY,
-    useFactory: (connection: Connection) => connection.getRepository(User),
+    useFactory: (connection: Connection) => connection.getCustomRepository(UserRepository),
     inject: [DB_CONNECTION_TOKEN],
   },
 ];
