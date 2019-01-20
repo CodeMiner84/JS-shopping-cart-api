@@ -1,22 +1,29 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { User } from '../../user/entity/user.entity';
+import { Product } from '../../product/entity/product.entity';
 
 @Entity()
 export class CartItem {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn() id: number;
+
+  @ManyToOne(type => User)
+  @JoinColumn()
+  user: User;
 
   @Column()
-  customerId: number;
+  userId: number;
+
+  @ManyToOne(type => Product)
+  product: Product;
 
   @Column()
   productId: number;
 
-  @Column('text')
-  quantity: string;
+  @Column() quantity: number;
 
-  @Column()
-  price: string;
+  @Column({length: 255}) title: string;
 
-  @Column()
-  created: Date;
+  @Column() price: string;
+
+  @Column() created: Date;
 }
