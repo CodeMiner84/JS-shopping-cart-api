@@ -5,17 +5,12 @@ import { AuthGuard } from '@nestjs/passport';
 import { Repository } from 'typeorm';
 import { CartItem } from '../entity/cart.entity';
 import { GetLoggedUser } from '../../auth/helpers/selectors';
-
-type RecalculateProps = {
-  id: number;
-  quantity: number;
-};
+import { RecalculateProps } from '../dto/recalulate-cart.dto';
+import { CreateCartItem } from '../dto/create-cartitem.dto';
 
 @Controller('cart')
 export class CartController {
   constructor(
-    @Inject(CART_REPOSITORY)
-    private readonly cartRepository: Repository<CartItem>,
     private readonly cartService: CartService,
   ) {}
 
@@ -26,7 +21,7 @@ export class CartController {
 
   @Post('add')
   @UseGuards(AuthGuard('jwt'))
-  async addToCart(@Body() params, @GetLoggedUser() user, @Res() res): Promise<any> {
+  async addToCart(@Body() params: CreateCartItem, @GetLoggedUser() user, @Res() res): Promise<any> {
     try {
       this.cartService.addToCart(params, user);
 
@@ -52,7 +47,7 @@ export class CartController {
   @UseGuards(AuthGuard('jwt'))
   async recalculate(@Body() params: RecalculateProps, @GetLoggedUser() user, @Res() res) {
     try {
-      await this.cartService.recalculate(params.id, params.quantity, user);
+      await this.cartService.recalculate(params, user);
 
       res.status(200).end();
     } catch (e) {

@@ -12,8 +12,4 @@ import { cartProviders } from './providers/cart.providers';
     ...cartProviders,
   ],
 })
-export class CartModule {
-  testAction() {
-    console.log('test');
-  }
-}
+export class CartModule {}

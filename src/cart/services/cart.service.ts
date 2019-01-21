@@ -5,6 +5,8 @@ import { DeleteResult } from 'typeorm';
 import { CartItemRepository } from '../entity/cart.repository';
 import { Product } from 'src/product/entity/product.entity';
 import { User } from 'src/user/entity/user.entity';
+import { CreateCartItem } from '../dto/create-cartitem.dto';
+import { RecalculateProps } from '../dto/recalulate-cart.dto';
 
 @Injectable()
 export class CartService {
@@ -36,7 +38,7 @@ export class CartService {
     return await this.cartRepository.removeCartItem(cartItem);
   }
 
-  async addToCart(params: CartItem, user: User): Promise<boolean> {
+  async addToCart(params: CreateCartItem, user: User): Promise<boolean> {
     const exists = await this.itemExists(params.product, user);
     if (exists) {
       await this.cartRepository.update(
@@ -56,10 +58,10 @@ export class CartService {
     return true;
   }
 
-  async recalculate(id: number, quantity: number, user: User) {
+  async recalculate(params: RecalculateProps, user: User): Promise<void> {
     await this.cartRepository.update(
-      {user, id},
-      {quantity},
+      {id: params.id, user},
+      {quantity: params.quantity},
     );
   }
 }

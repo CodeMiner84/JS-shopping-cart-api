@@ -23,7 +23,7 @@ export class CartItem {
 
   @Column({length: 255}) title!: string;
 
-  @Column() price!: string;
+  @Column() price!: number;
 
   @Column() created!: Date;
 }
