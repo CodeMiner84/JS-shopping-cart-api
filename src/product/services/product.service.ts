@@ -7,7 +7,6 @@ import { ProductRepository } from '../entity/product.repository';
 
 export const createUsersFixture = fixtureCreator<Product>(Product, (
   entity,
-  index,
 ) => ({
     ean: entity.ean,
     title: entity.title,

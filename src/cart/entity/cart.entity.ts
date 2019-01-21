@@ -8,22 +8,22 @@ export class CartItem {
 
   @ManyToOne(type => User)
   @JoinColumn()
-  user: User;
+  user!: User;
 
   @Column()
-  userId: number;
+  userId!: number;
 
   @ManyToOne(type => Product)
-  product: Product;
+  product!: Product;
 
   @Column()
-  productId: number;
+  productId!: number;
 
-  @Column() quantity: number;
+  @Column() quantity!: number;
 
-  @Column({length: 255}) title: string;
+  @Column({length: 255}) title!: string;
 
-  @Column() price: string;
+  @Column() price!: string;
 
-  @Column() created: Date;
+  @Column() created!: Date;
 }

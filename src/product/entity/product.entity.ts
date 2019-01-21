@@ -3,26 +3,26 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ length: 50 })
-  ean: string;
+  ean!: string;
 
   @Column({ length: 255 })
-  title: string;
+  title!: string;
 
   @Column('text')
-  description: string;
+  description!: string;
 
   @Column()
-  image: string;
+  image!: string;
 
   @Column()
-  isActive: boolean;
+  isActive!: boolean;
 
   @Column()
-  price: number;
+  price!: number;
 
   @Column()
-  created: Date;
+  created!: Date;
 }

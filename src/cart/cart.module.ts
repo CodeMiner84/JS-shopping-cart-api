@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Res } from '@nestjs/common';
 import { CartController } from './controllers/cart.controller';
 import { CartService } from './services/cart.service';
 import { DatabaseModule } from '../database/database.module';
@@ -12,4 +12,8 @@ import { cartProviders } from './providers/cart.providers';
     ...cartProviders,
   ],
 })
-export class CartModule {}
+export class CartModule {
+  testAction() {
+    console.log('test');
+  }
+}

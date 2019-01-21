@@ -1,10 +1,15 @@
-import { Controller, Get, Post, Body, Res, CacheKey, Inject, UseGuards, Req, Delete, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, CacheKey, Inject, UseGuards, Delete, Param, Patch } from '@nestjs/common';
 import { CartService } from '../services/cart.service';
 import { CART_REPOSITORY } from '../constants';
 import { AuthGuard } from '@nestjs/passport';
 import { Repository } from 'typeorm';
 import { CartItem } from '../entity/cart.entity';
 import { GetLoggedUser } from '../../auth/helpers/selectors';
+
+type RecalculateProps = {
+  id: number;
+  quantity: number;
+};
 
 @Controller('cart')
 export class CartController {
@@ -22,27 +27,12 @@ export class CartController {
   @Post('add')
   @UseGuards(AuthGuard('jwt'))
   async addToCart(@Body() params, @GetLoggedUser() user, @Res() res): Promise<any> {
-    const exists = await this.cartService.itemExists(params.productId, user);
-
     try {
-      if (exists) {
-        await this.cartRepository.update(
-          {id: exists.id},
-          {quantity: exists.quantity + params.quantity},
-        );
+      this.cartService.addToCart(params, user);
 
-        res.status(200).json(['done']);
-      } else {
-        const model = this.cartRepository.save({
-          ...params,
-          user,
-          product: params.productId,
-        });
-
-        res.status(200).json(model);
-      }
+      return res.status(200).end();
     } catch (e) {
-      res.status(500).json({message: e.message});
+      return res.status(500).end();
     }
   }
 
@@ -52,9 +42,21 @@ export class CartController {
     try {
       await this.cartService.removeById(params.id, user.id);
 
-      res.status(200).json({message: 'removed'});
+      res.status(200).end();
     } catch (e) {
-      res.status(500).error({message: e.message});
+      res.status(500).end();
+    }
+  }
+
+  @Patch('/recalculate')
+  @UseGuards(AuthGuard('jwt'))
+  async recalculate(@Body() params: RecalculateProps, @GetLoggedUser() user, @Res() res) {
+    try {
+      await this.cartService.recalculate(params.id, params.quantity, user);
+
+      res.status(200).end();
+    } catch (e) {
+      res.status(500).end();
     }
   }
 }
