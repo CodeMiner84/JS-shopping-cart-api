@@ -1,9 +1,6 @@
 import { Controller, Get, Post, Body, Res, CacheKey, Inject, UseGuards, Delete, Param, Patch } from '@nestjs/common';
 import { CartService } from '../services/cart.service';
-import { CART_REPOSITORY } from '../constants';
 import { AuthGuard } from '@nestjs/passport';
-import { Repository } from 'typeorm';
-import { CartItem } from '../entity/cart.entity';
 import { GetLoggedUser } from '../../auth/helpers/selectors';
 import { RecalculateProps } from '../dto/recalulate-cart.dto';
 import { CreateCartItem } from '../dto/create-cartitem.dto';
