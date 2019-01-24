@@ -6,14 +6,14 @@ import { Product } from '../../product/entity/product.entity';
 export class CartItem {
   @PrimaryGeneratedColumn() id: number;
 
-  @ManyToOne(type => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   user!: User;
 
   @Column()
   userId!: number;
 
-  @ManyToOne(type => Product)
+  @ManyToOne(() => Product)
   product!: Product;
 
   @Column()

@@ -1,4 +1,4 @@
-export type RecalculateProps = {
+export interface RecalculateProps {
   readonly id: number;
   readonly quantity: number;
-};
+}
