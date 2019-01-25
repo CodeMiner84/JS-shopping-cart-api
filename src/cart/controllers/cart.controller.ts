@@ -12,8 +12,9 @@ export class CartController {
   ) {}
 
   @Get('')
-  index() {
-    return this.cartService.getCartItems();
+  @UseGuards(AuthGuard('jwt'))
+  index(@GetLoggedUser() user) {
+    return this.cartService.getCartItems(user);
   }
 
   @Post('add')

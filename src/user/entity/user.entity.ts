@@ -4,7 +4,7 @@ import { CartItem } from '../../cart/entity/cart.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ length: 255 })
   username: string;

@@ -9,8 +9,14 @@ export class OrderItem {
   @ManyToOne(() => Order, { onDelete: 'SET NULL' })
   order!: Order;
 
+  @Column()
+  orderId: number;
+
   @ManyToOne(() => Product, { onDelete: 'SET NULL' })
   product!: Product;
+
+  @Column()
+  productId: number;
 
   @Column() price!: number;
 

@@ -15,8 +15,8 @@ export class CartService {
     private readonly cartRepository: CartItemRepository,
   ) {}
 
-  async getCartItems(): Promise<CartItem[]> {
-    return await this.cartRepository.find();
+  async getCartItems(user: User): Promise<CartItem[]> {
+    return await this.cartRepository.find({userId: user.id});
   }
 
   async itemExists(product: Product, user?: User): Promise<CartItem> {
@@ -63,5 +63,9 @@ export class CartService {
       {id: params.id, user},
       {quantity: params.quantity},
     );
+  }
+
+  async clearBasket(user: User) {
+    return await this.cartRepository.clearCartItems(user);
   }
 }
