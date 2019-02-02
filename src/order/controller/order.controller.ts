@@ -10,8 +10,14 @@ export class OrderController {
   ) {}
 
   @Get('list')
-  async orderList() {
-    return ['order list'];
+  @UseGuards(AuthGuard('jwt'))
+  async orderList(@Res() res, @GetLoggedUser() user) {
+    try {
+      const orderList = await this.orderSerice.getUserOrders(user.id);
+      res.status(200).json(orderList);
+    } catch (e) {
+      res.status(500).end();
+    }
   }
 
   @Post('create')
@@ -19,9 +25,9 @@ export class OrderController {
   async createOrder(@Res() res, @GetLoggedUser() user) {
     try {
       this.orderSerice.createOrder(user);
-      res.json(200).end();
+      res.status(200).end();
     } catch (e) {
-      res.json(500).end();
+      res.status(500).end();
     }
   }
 }

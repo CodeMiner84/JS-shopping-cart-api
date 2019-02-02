@@ -48,4 +48,8 @@ export class OrderService {
 
     await this.cartService.clearBasket(user);
   }
+
+  async getUserOrders(id: string) {
+    return await this.OrderRepository.findUserOrders(id);
+  }
 }
