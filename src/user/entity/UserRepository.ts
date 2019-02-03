@@ -1,5 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from './user.entity';
+import { RegisterUserDto } from '../dtos/user-register.dto';
+import { SimpleUserDto } from '../dtos/user.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -7,14 +9,14 @@ export class UserRepository extends Repository<User> {
     return this.createQueryBuilder('user').getMany();
   }
 
-  findTest(email) {
+  findOneByEmail(email: string): Promise<SimpleUserDto | null> {
     return this.createQueryBuilder('user')
       .select(['user.id', 'user.username', 'user.email'])
       .where('user.email = :email', {email})
       .getOne();
   }
 
-  async findDuplicate(email: string, username: string) {
+  async findDuplicate(email: string, username: string): Promise<RegisterUserDto | null> {
     return await this.createQueryBuilder('user')
       .select(['user.id'])
       .where('user.email = :email', {email})

@@ -13,7 +13,7 @@ export class AuthController {
     ) {}
 
   @Post('login')
-  async login(@Body() user: User, @Res() res): Promise<any> {
+  async login(@Body() user: User, @Res() res) {
     const authUser = await this.userService.findByEmailAndPassword(user);
 
     if (authUser == null) {
