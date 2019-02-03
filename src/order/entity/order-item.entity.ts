@@ -7,17 +7,14 @@ export class OrderItem {
   @PrimaryGeneratedColumn() id: number;
 
   @Index()
-  @ManyToOne(() => Order, order => order.orderItems, { onDelete: 'RESTRICT', onUpdate: 'RESTRICT' })
+  @ManyToOne(() => Order, order => order.orderItems, { onDelete: 'CASCADE' })
   order!: Order;
 
   @Column()
   orderId: number;
 
-  @ManyToOne(() => Product, { onDelete: 'RESTRICT', onUpdate: 'RESTRICT' })
+  @ManyToOne(() => Product, { onDelete: 'SET NULL', nullable: true })
   product!: Product;
-
-  @Column()
-  productId: number;
 
   @Column() price!: number;
 
