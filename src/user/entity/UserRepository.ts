@@ -13,4 +13,12 @@ export class UserRepository extends Repository<User> {
       .where('user.email = :email', {email})
       .getOne();
   }
+
+  async findDuplicate(email: string, username: string) {
+    return await this.createQueryBuilder('user')
+      .select(['user.id'])
+      .where('user.email = :email', {email})
+      .orWhere('user.username = :username', {username})
+      .getOne();
+  }
 }

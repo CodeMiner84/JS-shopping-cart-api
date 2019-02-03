@@ -47,7 +47,9 @@ export class AuthController {
   async create(@Body() user: User, @Res() res) {
     try {
       const authUser = await this.userService.create(user);
-      if (authUser === null) {
+      if (authUser === -1) {
+        return res.status(409).json({message: 'email already exists'});
+      } else if (authUser === null) {
         return res.status(403).json({
           status: 403,
           message: 'User already exists',

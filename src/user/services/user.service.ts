@@ -16,17 +16,19 @@ export class UserService {
   }
 
   async create(user: User): Promise<any> {
-      const newUser = await this.userRepository.findOne({ email: user.email, password: user.password });
+      const newUser = await this.userRepository.findDuplicate(user.email, user.username);
 
-      if (newUser == null) {
+      if (newUser === undefined) {
         return await this.userRepository.insert({
           ...user,
           password: bcrypt.hashSync(user.password, salt),
           created: new Date(),
         });
+      } else if (newUser !== null) {
+        return -1;
       }
 
-      return await null;
+      return 0;
   }
 
   async findByEmailAndPassword(params: Partial<User>): Promise<User> {
