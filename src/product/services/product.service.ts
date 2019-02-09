@@ -1,21 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { productFixtures } from '../fixtures/product.fixtures';
 import { PRODUCT_REPOSITORY } from '../constants';
-import { fixtureCreator, many, one } from 'typeorm-fixtures';
-import { Product } from '../entity/product.entity';
 import { ProductRepository } from '../entity/product.repository';
-
-export const createUsersFixture = fixtureCreator<Product>(Product, (
-  entity,
-) => ({
-    ean: entity.ean,
-    title: entity.title,
-    description: entity.description,
-    image: entity.image,
-    price: entity.price,
-    isActive: entity.isActive,
-    created: new Date(),
-}));
+import { ProductOutputModel } from '../dtos/prouct,output.model';
+import { productFixtures } from '../tests/fixtures/product.mock';
 
 @Injectable()
 export class ProductService {
@@ -24,7 +11,8 @@ export class ProductService {
     private readonly productRepository: ProductRepository,
   ) {}
 
-  async getAll(): Promise<Product[]> {
+  async getAll(): Promise<ProductOutputModel[]> {
+
     return await this.productRepository.findAll();
   }
 

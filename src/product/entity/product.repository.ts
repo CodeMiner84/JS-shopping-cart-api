@@ -1,7 +1,7 @@
 import { EntityRepository, Repository, Connection } from 'typeorm';
 import { Product } from './product.entity';
-import { createUsersFixture } from '../services/product.service';
-import { ProductFixturesProps } from '../fixtures/product.fixtures';
+import { ProdcutFixturesModel } from '../dtos/product.fixtures.model';
+import { createProductFixtures } from '../services/product.fixtures';
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
@@ -9,9 +9,9 @@ export class ProductRepository extends Repository<Product> {
     return this.createQueryBuilder('product').getMany();
   }
 
-  loadFixtures(fixtures: ProductFixturesProps[]) {
+  loadFixtures(fixtures: ProdcutFixturesModel[]) {
     this.clear();
-    createUsersFixture(fixtures);
+    createProductFixtures(fixtures);
 
     for (const fixture of fixtures) {
       this.save(fixture);

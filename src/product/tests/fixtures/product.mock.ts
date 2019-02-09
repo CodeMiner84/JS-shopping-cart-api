@@ -1,15 +1,6 @@
+import { ProdcutFixturesModel } from '../../dtos/product.fixtures.model';
 
-export interface ProductFixturesProps {
-  id: number;
-  ean: string;
-  title: string;
-  description: string;
-  image: string;
-  price: number;
-  isActive: boolean;
-}
-
-export const productFixtures = [
+export const productFixtures: ProdcutFixturesModel[] = [
 {
     id: 1,
     ean: 'dad0063d-e16a-4f79-9f0b-1e711afd85ec',
@@ -121,4 +112,4 @@ export const productFixtures = [
     price: 78.86,
     isActive: true,
   },
-];
+];  
