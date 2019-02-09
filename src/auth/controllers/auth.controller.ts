@@ -1,9 +1,10 @@
-import { Controller, Get, UseGuards, Body, HttpException, HttpStatus, Post, Request, Req, Res } from '@nestjs/common';
+import { Controller, Get, UseGuards, Body, HttpException, HttpStatus, Post, Request, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../../user/services/user.service';
 import { GetLoggedUser } from '../helpers/selectors';
 import { User } from 'src/user/entity/user.entity';
+import { DuplicateException } from '../../common/exceptions/duplicate-exception';
 
 @Controller('auth')
 export class AuthController {
@@ -47,25 +48,22 @@ export class AuthController {
   async create(@Body() user: User, @Res() res) {
     try {
       const authUser = await this.userService.create(user);
-      if (authUser === -1) {
-        return res.status(409).json({message: 'email already exists'});
-      } else if (authUser === null) {
-        return res.status(403).json({
-          status: 403,
-          message: 'User already exists',
-        });
-      }
+      delete authUser.password;
+
       const token = await this.authService.createToken(user.email);
 
-      delete authUser.password;
       res.status(200).json({
         user: authUser,
         token,
       });
-    } catch (e) {
-      res.status(500).json({
-        message: e.message,
-      });
+    } catch (error) {
+      if (error instanceof DuplicateException) {
+        return res.status(409).json({message: 'User already exists'});
+      } else if (error instanceof UnauthorizedException) {
+        return res.status(401).json({message: 'Something goes wrong!'});
+      }
+
+      return res.status(400).json({message: 'User already exists'});
     }
   }
 }

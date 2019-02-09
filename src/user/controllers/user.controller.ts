@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { UserService } from '../services/user.service';
-import { User } from '../interfaces/user.dto';
 import { create } from 'domain';
 import { AuthGuard } from '@nestjs/passport';
 import { Connection } from 'typeorm';
+import { User } from 'src/user/entity/user.entity';
 
 @Controller('user')
 export class UserController {
