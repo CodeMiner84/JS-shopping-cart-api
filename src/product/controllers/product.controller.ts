@@ -1,6 +1,6 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { ProductService } from '../services/product.service';
-import { ProductOutputmodel } from '../dtos/prouct,output.model';
+import { ProductOutputModel } from '../dtos/prouct.output.model';
 
 @Controller('product')
 export class ProductController {
@@ -9,7 +9,7 @@ export class ProductController {
   ) {}
 
   @Get('/list')
-  getAll(): Promise<ProductOutputmodel[]> {
+  getAll(): Promise<ProductOutputModel[]> {
     return this.productService.getAll();
   }
 

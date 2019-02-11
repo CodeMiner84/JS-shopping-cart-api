@@ -3,8 +3,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../../user/services/user.service';
 import { GetLoggedUser } from '../helpers/selectors';
-import { User } from 'src/user/entity/user.entity';
+import { User } from '../../user/entity/user.entity';
 import { DuplicateException } from '../../common/exceptions/duplicate-exception';
+import { UserLoginInputModel } from '../../user/dtos/user-login.input.model';
 
 @Controller('auth')
 export class AuthController {
@@ -14,7 +15,7 @@ export class AuthController {
     ) {}
 
   @Post('login')
-  async login(@Body() user: User, @Res() res) {
+  async login(@Body() user: UserLoginInputModel, @Res() res) {
     const authUser = await this.userService.findByEmailAndPassword(user);
 
     if (authUser == null) {

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { PRODUCT_REPOSITORY } from '../constants';
 import { ProductRepository } from '../entity/product.repository';
-import { ProductOutputModel } from '../dtos/prouct,output.model';
+import { ProductOutputModel } from '../dtos/prouct.output.model';
 import { productFixtures } from '../tests/fixtures/product.mock';
 
 @Injectable()
