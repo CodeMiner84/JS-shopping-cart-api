@@ -27,6 +27,8 @@ export class AuthController {
       user: {
         username: authUser.username,
         email: authUser.email,
+        firstName: authUser.firstName,
+        lastName: authUser.lastName,
       },
       token,
     });

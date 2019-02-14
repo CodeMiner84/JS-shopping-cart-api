@@ -6,6 +6,8 @@ import { User } from '../entity/user.entity';
 import * as uuidv1 from 'uuid/v1';
 import { MailerService, MAILER_TEMPLATE_REGISTER } from '../../mailer/services/mailer.service';
 import { DuplicateException } from '../../common/exceptions/duplicate-exception';
+import { InputUserUpdateModel } from '../dtos/input.user-update.model';
+import { AlreadyExistsException } from '../exceptions/already.exist.exception';
 
 @Injectable()
 export class UserService {
@@ -46,6 +48,17 @@ export class UserService {
     }
 
       throw new UnauthorizedException();
+  }
+
+  async updateUser(params: InputUserUpdateModel, id: number) {
+    if (await this.userRepository.findDuplicateUsername(params.username, id)) {
+      throw new AlreadyExistsException();
+    }
+
+    this.userRepository.update(
+      {id},
+      params,
+    );
   }
 
   async findByEmailAndPassword(params: Partial<User>): Promise<User> {

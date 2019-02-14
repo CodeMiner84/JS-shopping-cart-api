@@ -11,7 +11,7 @@ export class UserRepository extends Repository<User> {
 
   findOneByEmail(email: string): Promise<SimpleUserDto | null> {
     return this.createQueryBuilder('user')
-      .select(['user.id', 'user.username', 'user.email'])
+      .select(['user.id', 'user.username', 'user.email', 'user.firstName', 'user.lastName'])
       .where('user.email = :email', {email})
       .getOne();
   }
@@ -21,6 +21,14 @@ export class UserRepository extends Repository<User> {
       .select(['user.id'])
       .where('user.email = :email', {email})
       .orWhere('user.username = :username', {username})
+      .getOne();
+  }
+
+  async findDuplicateUsername(username: string, id: number) {
+    return await this.createQueryBuilder('user')
+      .select(['user.id'])
+      .where('user.username = :username', {username})
+      .andWhere('user.id != :id', {id})
       .getOne();
   }
 }
