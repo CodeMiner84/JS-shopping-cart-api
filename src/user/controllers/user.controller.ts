@@ -22,7 +22,18 @@ export class UserController {
       await this.userService.updateUser(body, user.id);
       res.status(HttpStatus.OK).end();
     } catch(error) {
-      res.status(HttpStatus.FORBIDDEN);
+      res.status(HttpStatus.FORBIDDEN).end();
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Patch('change-password')
+  async changePassword(@Res() res, @Body() body, @GetLoggedUser() user) {
+    try {
+      await this.userService.changePassword(body, user.id);
+      res.status(HttpStatus.OK).end();
+    } catch(error) {
+      res.status(HttpStatus.FORBIDDEN).end();
     }
   }
 }

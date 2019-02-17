@@ -8,6 +8,7 @@ import { MailerService, MAILER_TEMPLATE_REGISTER } from '../../mailer/services/m
 import { DuplicateException } from '../../common/exceptions/duplicate-exception';
 import { InputUserUpdateModel } from '../dtos/input.user-update.model';
 import { AlreadyExistsException } from '../exceptions/already.exist.exception';
+import { InputChangePasswordModel } from '../dtos/input.change-password.model';
 
 @Injectable()
 export class UserService {
@@ -77,5 +78,26 @@ export class UserService {
 
   async findOneByEmail(email: string): Promise<any> {
     return await this.userRepository.findOneByEmail(email);
+  }
+
+  async changePassword(params: InputChangePasswordModel, id: number) {
+    const user = await this.userRepository.findOne({ id });
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    const password = await bcrypt.compare(params.oldPassword, user.password);
+    if (!password) {
+      throw new UnauthorizedException();
+    }
+
+    const updateProps = {
+      password: bcrypt.hashSync(params.newPassword, salt),
+    };
+
+    this.userRepository.update(
+      {id},
+      updateProps,
+    );
   }
 }
