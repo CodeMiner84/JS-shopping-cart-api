@@ -52,7 +52,7 @@ export class UserService {
   }
 
   async updateUser(params: InputUserUpdateModel, id: number) {
-    if (await this.userRepository.findDuplicateUsername(params.username, id)) {
+    if (await this.userRepository.findDuplicateUser(params.username, params.email, id)) {
       throw new AlreadyExistsException();
     }
 

@@ -24,10 +24,10 @@ export class UserRepository extends Repository<User> {
       .getOne();
   }
 
-  async findDuplicateUsername(username: string, id: number) {
+  async findDuplicateUser(username: string, email: string, id: number) {
     return await this.createQueryBuilder('user')
       .select(['user.id'])
-      .where('user.username = :username', {username})
+      .where('(user.username = :username OR user.email = :email)', {username, email})
       .andWhere('user.id != :id', {id})
       .getOne();
   }
