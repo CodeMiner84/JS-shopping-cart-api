@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Patch, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Patch, Res, HttpStatus } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { create } from 'domain';
 import { AuthGuard } from '@nestjs/passport';
@@ -18,8 +18,11 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Patch('update')
   async updateUser(@Res() res, @Body() body, @GetLoggedUser() user) {
-    this.userService.updateUser(body, user.id);
-
-    res.status(200).end();
+    try {
+      await this.userService.updateUser(body, user.id);
+      res.status(HttpStatus.OK).end();
+    } catch(error) {
+      res.status(HttpStatus.FORBIDDEN);
+    }
   }
 }
