@@ -2,6 +2,7 @@ import { Controller, Post, Body, Res, Get, UseGuards } from '@nestjs/common';
 import { GetLoggedUser } from '../../auth/helpers/selectors';
 import { OrderService } from '../service/order.service';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('order')
 export class OrderController {
@@ -9,6 +10,9 @@ export class OrderController {
     private readonly orderSerice: OrderService,
   ) {}
 
+  @ApiResponse({ status: 200, description: 'Order list fetched successfully'})
+  @ApiResponse({ status: 500, description: 'Something goes wrong'})
+  @ApiBearerAuth()
   @Get('list')
   @UseGuards(AuthGuard('jwt'))
   async orderList(@Res() res, @GetLoggedUser() user) {
@@ -20,6 +24,9 @@ export class OrderController {
     }
   }
 
+  @ApiResponse({ status: 200, description: 'Order list fetched successfully'})
+  @ApiResponse({ status: 500, description: 'Something goes wrong'})
+  @ApiBearerAuth()
   @Post('create')
   @UseGuards(AuthGuard('jwt'))
   async createOrder(@Res() res, @GetLoggedUser() user) {

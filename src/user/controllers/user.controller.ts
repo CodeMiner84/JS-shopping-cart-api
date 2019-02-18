@@ -1,23 +1,31 @@
 import { Controller, Get, Post, Body, UseGuards, Patch, Res, HttpStatus } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { create } from 'domain';
+import { ApiUseTags } from '@nestjs/swagger';
+import { ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Connection } from 'typeorm';
 import { User } from 'src/user/entity/user.entity';
 import { GetLoggedUser } from 'src/auth/helpers/selectors';
+import { InputUserUpdateModel } from '../dtos/input.user-update.model';
+import { InputChangePasswordModel } from '../dtos/input.change-password.model';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @ApiResponse({ status: 200, description: 'User list loaded'})
   @Get('/list')
   async getAll(): Promise<User[]> {
     return await this.userService.findAll();
   }
 
+  @ApiResponse({ status: 200, description: 'User updated'})
+  @ApiResponse({ status: 403, description: 'Forbidden.'})
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Patch('update')
-  async updateUser(@Res() res, @Body() body, @GetLoggedUser() user) {
+  async updateUser(@Body() body: InputUserUpdateModel, @GetLoggedUser() user, @Res() res) {
     try {
       await this.userService.updateUser(body, user.id);
       res.status(HttpStatus.OK).end();
@@ -26,9 +34,12 @@ export class UserController {
     }
   }
 
+  @ApiResponse({ status: 200, description: 'Password changed'})
+  @ApiResponse({ status: 403, description: 'Forbidden.'})
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Patch('change-password')
-  async changePassword(@Res() res, @Body() body, @GetLoggedUser() user) {
+  async changePassword(@Res() res, @Body() body: InputChangePasswordModel, @GetLoggedUser() user) {
     try {
       await this.userService.changePassword(body, user.id);
       res.status(HttpStatus.OK).end();

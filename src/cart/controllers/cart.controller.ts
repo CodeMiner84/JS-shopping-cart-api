@@ -4,6 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetLoggedUser } from '../../auth/helpers/selectors';
 import { RecalculateProps } from '../dto/recalulate-cart.dto';
 import { CreateCartItem } from '../dto/create-cartitem.dto';
+import { ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('cart')
 export class CartController {
@@ -11,12 +12,16 @@ export class CartController {
     private readonly cartService: CartService,
   ) {}
 
+  @ApiResponse({ status: 500, description: 'Something goes wrong'})
   @Get('')
   @UseGuards(AuthGuard('jwt'))
   index(@GetLoggedUser() user) {
     return this.cartService.getCartItems(user);
   }
 
+  @ApiResponse({ status: 200, description: 'Added to cart'})
+  @ApiResponse({ status: 500, description: 'Something goes wrong'})
+  @ApiBearerAuth()
   @Post('add')
   @UseGuards(AuthGuard('jwt'))
   async addToCart(@Body() params: CreateCartItem, @GetLoggedUser() user, @Res() res): Promise<any> {
@@ -29,6 +34,9 @@ export class CartController {
     }
   }
 
+  @ApiResponse({ status: 200, description: 'Item removed from cart'})
+  @ApiResponse({ status: 500, description: 'Something goes wrong'})
+  @ApiBearerAuth()
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   async delete(@Param() params, @GetLoggedUser() user, @Res() res) {
@@ -41,6 +49,9 @@ export class CartController {
     }
   }
 
+  @ApiResponse({ status: 200, description: 'Cart recalculated'})
+  @ApiResponse({ status: 500, description: 'Something goes wrong'})
+  @ApiBearerAuth()
   @Patch('/recalculate')
   @UseGuards(AuthGuard('jwt'))
   async recalculate(@Body() params: RecalculateProps, @GetLoggedUser() user, @Res() res) {
