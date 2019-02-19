@@ -1,12 +1,9 @@
 import { Controller, Get, Post, Body, UseGuards, Patch, Res, HttpStatus } from '@nestjs/common';
 import { UserService } from '../services/user.service';
-import { create } from 'domain';
-import { ApiUseTags } from '@nestjs/swagger';
 import { ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { Connection } from 'typeorm';
-import { User } from 'src/user/entity/user.entity';
-import { GetLoggedUser } from 'src/auth/helpers/selectors';
+import { User } from '../../user/entity/user.entity';
+import { GetLoggedUser } from '../../auth/helpers/selectors';
 import { InputUserUpdateModel } from '../dtos/input.user-update.model';
 import { InputChangePasswordModel } from '../dtos/input.change-password.model';
 

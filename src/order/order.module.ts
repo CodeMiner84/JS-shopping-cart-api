@@ -5,7 +5,7 @@ import { DatabaseModule } from '../database/database.module';
 import { orderProviders } from './providers/order.provider';
 import { orderItemProviders } from './providers/order-item.providers';
 import { CartService } from '../cart/services/cart.service';
-import { cartProviders } from 'src/cart/providers/cart.providers';
+import { cartProviders } from '../cart/providers/cart.providers';
 
 @Module({
   imports: [DatabaseModule],

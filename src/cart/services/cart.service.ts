@@ -3,8 +3,8 @@ import { CART_REPOSITORY } from '../constants';
 import { CartItem } from '../entity/cart.entity';
 import { DeleteResult } from 'typeorm';
 import { CartItemRepository } from '../entity/cart.repository';
-import { Product } from 'src/product/entity/product.entity';
-import { User } from 'src/user/entity/user.entity';
+import { Product } from '../../product/entity/product.entity';
+import { User } from '../../user/entity/user.entity';
 import { CreateCartItem } from '../dto/create-cartitem.dto';
 import { RecalculateProps } from '../dto/recalulate-cart.dto';
 

@@ -14,7 +14,7 @@
     "arrow-parens": false,
     "object-literal-sort-keys": false,
     "no-shadowed-variable": false,
-    "no-empty-interface": false,
+    "no-empty-interface": false
   },
   "rulesDirectory": []
 }
