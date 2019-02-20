@@ -1,13 +1,11 @@
-import { Injectable, Inject, forwardRef, HttpException, ForbiddenException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, HttpException, UnauthorizedException, HttpStatus } from '@nestjs/common';
 import { USER_REPOSITORY, salt } from '../contastants';
 import * as bcrypt from 'bcryptjs';
 import { UserRepository } from '../entity/UserRepository';
 import { User } from '../entity/user.entity';
 import * as uuidv1 from 'uuid/v1';
 import { MailerService, MAILER_TEMPLATE_REGISTER } from '../../mailer/services/mailer.service';
-import { DuplicateException } from '../../common/exceptions/duplicate-exception';
 import { InputUserUpdateModel } from '../dtos/input.user-update.model';
-import { AlreadyExistsException } from '../exceptions/already.exist.exception';
 import { InputChangePasswordModel } from '../dtos/input.change-password.model';
 
 @Injectable()
@@ -34,26 +32,26 @@ export class UserService {
         guid: uuidv1(),
       });
 
-      this.mailerService.sendMail(
-        'michal.pietrasz@gmail.com',
-        'Registration on jsshop',
-        MAILER_TEMPLATE_REGISTER,
-        {
-          url_activation_link: 'http://google.pl',
-        }
-      );
+      // this.mailerService.sendMail(
+      //   'domain@example.com',
+      //   'Registration on jsshop',
+      //   MAILER_TEMPLATE_REGISTER,
+      //   {
+      //     url_activation_link: 'http://google.pl',
+      //   }
+      // );
 
       return user;
     } else if (newUser !== null) {
-      throw new DuplicateException();
+      throw new HttpException('Duplicate entity', HttpStatus.CONFLICT);
     }
 
-      throw new UnauthorizedException();
+    throw new HttpException('Not found', HttpStatus.NOT_FOUND);
   }
 
   async updateUser(params: InputUserUpdateModel, id: number) {
     if (await this.userRepository.findDuplicateUser(params.username, params.email, id)) {
-      throw new AlreadyExistsException();
+      throw new HttpException('Already exist', HttpStatus.CONFLICT);
     }
 
     this.userRepository.update(

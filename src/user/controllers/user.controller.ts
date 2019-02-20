@@ -22,13 +22,8 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Patch('update')
-  async updateUser(@Body() body: InputUserUpdateModel, @GetLoggedUser() user, @Res() res) {
-    try {
-      await this.userService.updateUser(body, user.id);
-      res.status(HttpStatus.OK).end();
-    } catch(error) {
-      res.status(HttpStatus.FORBIDDEN).end();
-    }
+  async updateUser(@Body() body: InputUserUpdateModel, @GetLoggedUser() user): Promise<void> {
+    await this.userService.updateUser(body, user.id);
   }
 
   @ApiResponse({ status: 200, description: 'Password changed'})
@@ -36,12 +31,7 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Patch('change-password')
-  async changePassword(@Res() res, @Body() body: InputChangePasswordModel, @GetLoggedUser() user) {
-    try {
-      await this.userService.changePassword(body, user.id);
-      res.status(HttpStatus.OK).end();
-    } catch(error) {
-      res.status(HttpStatus.FORBIDDEN).end();
-    }
+  async changePassword(@Res() res, @Body() body: InputChangePasswordModel, @GetLoggedUser() user): Promise<void> {
+    await this.userService.changePassword(body, user.id);
   }
 }
