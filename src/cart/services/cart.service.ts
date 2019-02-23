@@ -1,4 +1,4 @@
-import { Injectable, Inject, HttpException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { CART_REPOSITORY } from '../constants';
 import { CartItem } from '../entity/cart.entity';
 import { DeleteResult } from 'typeorm';
