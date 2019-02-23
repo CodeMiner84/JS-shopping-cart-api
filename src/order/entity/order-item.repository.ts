@@ -1,4 +1,4 @@
-import { EntityRepository, Repository, DeleteResult } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 import { OrderItem } from './order-item.entity';
 
 @EntityRepository(OrderItem)

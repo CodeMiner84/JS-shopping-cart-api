@@ -5,7 +5,6 @@ import { UserFixtureModel } from '../dtos/user.fixture.model';
 import { userFixtures } from '../../auth/fixtures/user.fixtures';
 import { getConnection } from 'typeorm';
 import { UserController } from '../controllers/user.controller';
-import { User } from '../entity/user.entity';
 
 describe('User module', () => {
   let userService: UserService;

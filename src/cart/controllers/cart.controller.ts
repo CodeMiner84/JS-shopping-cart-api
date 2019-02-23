@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Res, CacheKey, Inject, UseGuards, Delete, Param, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, UseGuards, Delete, Param, Patch } from '@nestjs/common';
 import { CartService } from '../services/cart.service';
 import { AuthGuard } from '@nestjs/passport';
 import { GetLoggedUser } from '../../auth/helpers/selectors';

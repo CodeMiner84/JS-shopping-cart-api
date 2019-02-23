@@ -1,4 +1,4 @@
-import { Injectable, Post, Inject, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
 import { OrderRepository } from '../entity/order.repository';
 import { OrderItemRepository } from '../entity/order-item.repository';
 import { ORDER_REPOSITORY, ORDER_ITEM_REPOSITORY } from '../constants';

@@ -4,7 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import { UserRepository } from '../entity/user.repository';
 import { User } from '../entity/user.entity';
 import * as uuidv1 from 'uuid/v1';
-import { MailerService, MAILER_TEMPLATE_REGISTER } from '../../mailer/services/mailer.service';
+import { MailerService } from '../../mailer/services/mailer.service';
 import { InputUserUpdateModel } from '../dtos/input.user-update.model';
 import { InputChangePasswordModel } from '../dtos/input.change-password.model';
 
@@ -25,7 +25,7 @@ export class UserService {
     const newUser = await this.userRepository.findDuplicate(user.email, user.username);
 
     if (newUser === undefined) {
-      const newUser = await this.userRepository.insert({
+      await this.userRepository.insert({
         ...user,
         password: bcrypt.hashSync(user.password, salt),
         created: new Date(),

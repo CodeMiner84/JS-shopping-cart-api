@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Index } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index } from 'typeorm';
 import { Order } from './order.entity';
 import { Product } from '../../product/entity/product.entity';
 import { IsString, IsInt, IsDate, IsNumber } from 'class-validator';

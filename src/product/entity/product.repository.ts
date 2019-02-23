@@ -1,4 +1,4 @@
-import { EntityRepository, Repository, Connection } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 import { Product } from './product.entity';
 import { ProdcutFixturesModel } from '../dtos/product.fixtures.model';
 import { createProductFixtures } from '../services/product.fixtures';
