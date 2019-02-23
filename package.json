@@ -31,6 +31,8 @@
     "@nestjs/swagger": "^2.5.1",
     "@nestjs/typeorm": "^5.2.2",
     "bcryptjs": "^2.4.3",
+    "class-transformer": "^0.2.0",
+    "class-validator": "^0.9.1",
     "mongoose": "^5.4.3",
     "mongoose-repository": "^0.2.0",
     "mysql": "^2.16.0",

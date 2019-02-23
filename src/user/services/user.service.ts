@@ -1,7 +1,7 @@
 import { Injectable, Inject, forwardRef, HttpException, UnauthorizedException, HttpStatus } from '@nestjs/common';
 import { USER_REPOSITORY, salt } from '../contastants';
 import * as bcrypt from 'bcryptjs';
-import { UserRepository } from '../entity/UserRepository';
+import { UserRepository } from '../entity/user.repository';
 import { User } from '../entity/user.entity';
 import * as uuidv1 from 'uuid/v1';
 import { MailerService, MAILER_TEMPLATE_REGISTER } from '../../mailer/services/mailer.service';
@@ -17,7 +17,7 @@ export class UserService {
     private readonly mailerService: MailerService,
   ) {}
 
-  async findAll(): Promise<User[]> {
+  async findAll() {
      return await this.userRepository.find();
   }
 

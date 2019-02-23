@@ -21,10 +21,11 @@ export class AuthController {
   @ApiResponse({ status: 403, description: 'Forbidden.'})
   @Post('login')
   async login(@Body() user: UserLoginInputModel) {
+    const all = await this.userService.findAll();
     const authUser = await this.userService.findByEmailAndPassword(user);
 
     if (authUser == null) {
-      throw new HttpException('Wrong user', HttpStatus.FORBIDDEN);;
+      throw new HttpException('Wrong user', HttpStatus.FORBIDDEN);
     }
 
     const token = await this.authService.createToken(authUser.email);
