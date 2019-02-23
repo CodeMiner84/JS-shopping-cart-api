@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, HttpException } from '@nestjs/common';
 import { CART_REPOSITORY } from '../constants';
 import { CartItem } from '../entity/cart.entity';
 import { DeleteResult } from 'typeorm';
@@ -26,16 +26,19 @@ export class CartService {
     });
   }
 
-  async findUserProduct(product: Product, user: User): Promise<CartItem> {
+  async findUserProduct(cartId: number, userId: number): Promise<CartItem> {
     return await this.cartRepository.findOne({
-      product,
-      user,
+      id: cartId,
+      userId,
     });
   }
 
-  async removeById(product: Product, user: User): Promise<DeleteResult> {
+  async removeById(product: number, user: number): Promise<DeleteResult> {
     const cartItem = await this.findUserProduct(product, user);
-    return await this.cartRepository.removeCartItem(cartItem);
+
+    if (cartItem !== undefined) {
+      return await this.cartRepository.removeCartItem(cartItem);
+    }
   }
 
   async addToCart(params: CreateCartItem, user: User): Promise<boolean> {
@@ -65,7 +68,7 @@ export class CartService {
     );
   }
 
-  async clearBasket(user: User) {
+  async clearBasket(user: User): Promise<DeleteResult> {
     return await this.cartRepository.clearCartItems(user);
   }
 }

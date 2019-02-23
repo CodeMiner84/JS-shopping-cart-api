@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { RegisterUserDto } from '../dtos/user-register.dto';
-import { SimpleUserDto } from '../dtos/user.dto';
+import { UserOutputModel } from '../dtos/user.output.model';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -9,7 +9,7 @@ export class UserRepository extends Repository<User> {
     return this.createQueryBuilder('user').getMany();
   }
 
-  findOneByEmail(email: string): Promise<SimpleUserDto | null> {
+  findOneByEmail(email: string): Promise<UserOutputModel | null> {
     return this.createQueryBuilder('user')
       .select(['user.id', 'user.username', 'user.email', 'user.firstName', 'user.lastName'])
       .where('user.email = :email', {email})

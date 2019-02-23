@@ -7,6 +7,7 @@ import * as uuidv1 from 'uuid/v1';
 import { MailerService } from '../../mailer/services/mailer.service';
 import { InputUserUpdateModel } from '../dtos/input.user-update.model';
 import { InputChangePasswordModel } from '../dtos/input.change-password.model';
+import { UserOutputModel } from '../dtos/user.output.model';
 
 @Injectable()
 export class UserService {
@@ -21,7 +22,7 @@ export class UserService {
      return await this.userRepository.find();
   }
 
-  async create(user: User): Promise<User> {
+  async create(user: User): Promise<UserOutputModel> {
     const newUser = await this.userRepository.findDuplicate(user.email, user.username);
 
     if (newUser === undefined) {
@@ -74,7 +75,7 @@ export class UserService {
     return user;
   }
 
-  async findOneByEmail(email: string): Promise<any> {
+  async findOneByEmail(email: string): Promise<UserOutputModel> {
     return await this.userRepository.findOneByEmail(email);
   }
 

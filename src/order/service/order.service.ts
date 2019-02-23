@@ -4,6 +4,7 @@ import { OrderItemRepository } from '../entity/order-item.repository';
 import { ORDER_REPOSITORY, ORDER_ITEM_REPOSITORY } from '../constants';
 import { User } from '../../user/entity/user.entity';
 import { CartService } from '../../cart/services/cart.service';
+import { OrderOutputModel } from '../dtos/order.output.model';
 
 @Injectable()
 export class OrderService {
@@ -15,7 +16,7 @@ export class OrderService {
     private readonly cartService: CartService,
   ) {}
 
-  async createOrder(user: User) {
+  async createOrder(user: User): Promise<void> {
     const cartItems = await this.cartService.getCartItems(user);
 
     if (cartItems.length === 0) {
@@ -49,7 +50,7 @@ export class OrderService {
     await this.cartService.clearBasket(user);
   }
 
-  async getUserOrders(id: string) {
+  async getUserOrders(id: string): Promise<OrderOutputModel[]> {
     return await this.OrderRepository.findUserOrders(id);
   }
 }

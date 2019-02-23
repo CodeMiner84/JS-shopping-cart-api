@@ -12,7 +12,6 @@ export class ProductService {
   ) {}
 
   async getAll(): Promise<ProductOutputModel[]> {
-
     return await this.productRepository.findAll();
   }
 

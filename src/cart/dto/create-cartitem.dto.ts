@@ -4,6 +4,7 @@ import { Product } from '../../product/entity/product.entity';
 export class CreateCartItem {
   @ApiModelProperty()
   productId: number;
+  @ApiModelProperty()
   product: Product;
   @ApiModelProperty()
   title: string;

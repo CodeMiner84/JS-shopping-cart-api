@@ -1,8 +1,9 @@
-import { Controller, Post, Res, Get, UseGuards } from '@nestjs/common';
+import { Controller, Post, Get, UseGuards } from '@nestjs/common';
 import { GetLoggedUser } from '../../auth/helpers/selectors';
 import { OrderService } from '../service/order.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { OrderOutputModel } from '../dtos/order.output.model';
 
 @Controller('order')
 export class OrderController {
@@ -15,13 +16,8 @@ export class OrderController {
   @ApiBearerAuth()
   @Get('list')
   @UseGuards(AuthGuard('jwt'))
-  async orderList(@Res() res, @GetLoggedUser() user) {
-    try {
-      const orderList = await this.orderSerice.getUserOrders(user.id);
-      res.status(200).json(orderList);
-    } catch (e) {
-      res.status(500).end();
-    }
+  async orderList(@GetLoggedUser() user): Promise<OrderOutputModel[]> {
+    return await this.orderSerice.getUserOrders(user.id);
   }
 
   @ApiResponse({ status: 200, description: 'Order list fetched successfully'})
@@ -29,12 +25,7 @@ export class OrderController {
   @ApiBearerAuth()
   @Post('create')
   @UseGuards(AuthGuard('jwt'))
-  async createOrder(@Res() res, @GetLoggedUser() user) {
-    try {
-      this.orderSerice.createOrder(user);
-      res.status(200).end();
-    } catch (e) {
-      res.status(500).end();
-    }
+  async createOrder(@GetLoggedUser() user): Promise<void> {
+    this.orderSerice.createOrder(user);
   }
 }

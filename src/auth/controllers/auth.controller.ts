@@ -8,7 +8,9 @@ import { GetLoggedUser } from '../helpers/selectors';
 import { User } from '../../user/entity/user.entity';
 import { UserLoginInputModel } from '../../user/dtos/user-login.input.model';
 import { HttpExceptionFilter } from '../../common/exceptions/exception-filter';
+import { UserLoginOutputModel } from '../../user/dtos/user-login.output.model';
 
+@UseFilters(new HttpExceptionFilter())
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -16,12 +18,11 @@ export class AuthController {
     private readonly userService: UserService,
     ) {}
 
-  @UseFilters(new HttpExceptionFilter())
   @ApiResponse({ status: 200, description: 'User logged in'})
-  @ApiResponse({ status: 403, description: 'Forbidden.'})
+  @ApiResponse({ status: 403, description: 'Wrong user'})
   @Post('login')
-  async login(@Body() user: UserLoginInputModel) {
-    const all = await this.userService.findAll();
+  async login(@Body() user: UserLoginInputModel): Promise<UserLoginOutputModel> {
+    await this.userService.findAll();
     const authUser = await this.userService.findByEmailAndPassword(user);
 
     if (authUser == null) {
@@ -31,6 +32,7 @@ export class AuthController {
     const token = await this.authService.createToken(authUser.email);
     return {
       user: {
+        id: authUser.id,
         username: authUser.username,
         email: authUser.email,
         firstName: authUser.firstName,
@@ -40,11 +42,11 @@ export class AuthController {
     };
   }
 
-  @ApiResponse({ status: 200, description: 'Token checked correctly'})
-  @ApiResponse({ status: 500, description: 'No token provided'})
+  @ApiResponse({ status: 200, description: 'User fetched successful'})
+  @ApiResponse({ status: 404, description: 'No token provided'})
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
-  findAll(@GetLoggedUser() user) {
+  findAll(@GetLoggedUser() user): Promise<UserLoginOutputModel> {
     if (!user) {
       throw new HttpException('No token provided', HttpStatus.NOT_FOUND);
     }
@@ -53,12 +55,11 @@ export class AuthController {
   }
 
   @ApiResponse({ status: 200, description: 'Register successful'})
-  @ApiResponse({ status: 409, description: 'User already exists'})
-  @ApiResponse({ status: 401, description: 'Something goes wrong'})
+  @ApiResponse({ status: 409, description: 'Duplicate entity'})
+  @ApiResponse({ status: 404, description: 'Not found'})
   @Post('/register')
-  async create(@Body() user: User) {
+  async create(@Body() user: User): Promise<UserLoginOutputModel> {
     const authUser = await this.userService.create(user);
-    delete authUser.password;
 
     const token = await this.authService.createToken(user.email);
 

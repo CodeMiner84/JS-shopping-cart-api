@@ -6,7 +6,7 @@ import { IsString, IsInt, IsDate, IsNumber } from 'class-validator';
 @Entity()
 export class CartItem {
   @IsInt()
-  @PrimaryGeneratedColumn() id: number;
+  @PrimaryGeneratedColumn() id!: number;
 
   @IsInt()
   @ManyToOne(() => User, { onDelete: 'CASCADE' })

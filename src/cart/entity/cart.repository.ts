@@ -11,7 +11,7 @@ export class CartItemRepository extends Repository<CartItem> {
   removeCartItem(cartItem: CartItem): Promise<DeleteResult> {
     return this.createQueryBuilder('cart')
       .delete()
-      .where({cartItem})
+      .where({id: cartItem.id})
       .execute();
   }
 

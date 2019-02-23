@@ -1,4 +1,4 @@
-import { Controller, Get, Res } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ProductService } from '../services/product.service';
 import { ProductOutputModel } from '../dtos/prouct.output.model';
 import { ApiResponse } from '@nestjs/swagger';
@@ -17,7 +17,7 @@ export class ProductController {
 
   @ApiResponse({ status: 200, description: 'Products loaded'})
   @Get('/import')
-  async import(@Res() res) {
-    return res.status(200).json(await this.productService.import());
+  async import() {
+    return await this.productService.import();
   }
 }
