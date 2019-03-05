@@ -3,6 +3,10 @@
 # JS shopping cart API
 
 API part of JS-shopping-cart application
+
+* [docker](https://github.com/CodeMiner84/JS-shopping-cart-docker) - docker application
+* [ui](https://github.com/CodeMiner84/JS-shopping-cart-ui) - UI application
+
 ```
 yarn install
 ```
