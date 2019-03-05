@@ -8,12 +8,10 @@ async function bootstrap() {
 
   app.useGlobalFilters(new HttpExceptionFilter());
 
-
   const options = new DocumentBuilder()
-    .setTitle('JSshop')
-    .setDescription('JSshops API description')
+    .setTitle('JS-shopping-cart')
+    .setDescription('API DOC')
     .setVersion('1.0')
-    .addTag('jsshop')
     .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api', app, document);
