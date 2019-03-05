@@ -1,12 +1,9 @@
-FROM node:9.6.1
-
+FROM node:10-alpine
 WORKDIR /usr/app
-
 COPY package*.json ./
-RUN npm install -qy
-
+RUN yarn install
 COPY . .
-
+RUN chmod +x /usr/app/run.sh
+ENTRYPOINT ["sh", "/usr/app/run.sh"]
 EXPOSE 3010
-
-CMD ["npm", "start"]
+CMD yarn start
